@@ -11485,8 +11485,8 @@ var fileConfig = null
 async function run (){
     await loadFileConfig()
     try {
-        if(checkRepoConfig (github.context, config)){
-            let basic_auth =  core.getInput("basic_auth")
+        if(checkRepoConfig (github.context, fileConfig)){
+            let basic_auth =  core.getInput("basic-auth")
             let url = core.getInput("url-jira")    
             let interval = setInterval(()=>{
               if(getStatus() == null || getStatus() != 'done')
