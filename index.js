@@ -7,6 +7,8 @@ var fileConfig = null
 async function run (){
     await loadFileConfig()
     try {
+        console.log("run")
+        console.log(fileConfig)
         if(checkRepoConfig (github.context, fileConfig)){
             let basic_auth =  core.getInput("basic-auth")
             let url = core.getInput("url-jira")    
@@ -42,8 +44,12 @@ async function loadFileConfig(){
 
 async function setFileConfig(path){
     try {
+        console.log("setFileConfig")
+        console.log(path)
         await axios.get(path).then((res)=>{
-            fileConfig = res.data      
+            fileConfig = res.data
+            console.log("fileConfig")      
+            console.log(fileConfig)      
         }).catch((error)=>{
             console.log(error)
         })
@@ -85,6 +91,8 @@ function getStatus() {
 }
 
 function checkRepoConfig (context, config){
+    console.log("config")
+    console.log(config)
     console.log("file config")
     console.log(config.branch_head)
     console.log("pull request object")
