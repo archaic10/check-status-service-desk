@@ -8,8 +8,8 @@ async function run (){
     await loadFileConfig()
     try {
         console.log("run")
-        console.log(fileConfig)
-        if(checkRepoConfig (github.context, fileConfig)){
+        console.log(getFileConfig())
+        if(checkRepoConfig (github.context, getFileConfig())){
             let basic_auth =  core.getInput("basic-auth")
             let url = core.getInput("url-jira")    
             let interval = setInterval(()=>{
@@ -25,9 +25,11 @@ async function run (){
 }
 
 async function loadFileConfig(){
-    try {    
+    try {           
         let github_token = core.getInput("GITHUB_TOKEN")
         let path_file = core.getInput("path-file")
+        console.log("path_file") 
+        console.log(path_file) 
         let octokit = github.getOctokit(github_token)    
         let {data} = await octokit.rest.repos.getContent({
             owner: github.context.payload.repository.owner.login,
