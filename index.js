@@ -11,7 +11,12 @@ async function run (){
         let path_file = core.getInput("path-file")
         console.log("path_file") 
         console.log(path_file) 
-        let octokit = github.getOctokit(github_token)    
+        let octokit = github.getOctokit(github_token)
+        console.log("github.context.payload.repository")    
+        console.log(github.context.payload.repository)
+        console.log("github.context.payload.repository.owner.login")    
+        console.log(github.context.payload.repository.owner)   
+            
         let {data} = await octokit.rest.repos.getContent({
             owner: github.context.payload.repository.owner.login,
             repo: github.context.payload.repository.name,
