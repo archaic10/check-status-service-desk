@@ -27,7 +27,7 @@ async function run (){
 async function loadFileConfig(){
     try {    
         let github_token = core.getInput("GITHUB_TOKEN")
-        let path_file = core.getInput("path_file")
+        let path_file = core.getInput("path-file")
         let octokit = github.getOctokit(github_token)    
         let {data} = await octokit.rest.repos.getContent({
             owner: github.context.payload.repository.owner.login,
