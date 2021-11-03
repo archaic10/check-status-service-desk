@@ -85,8 +85,13 @@ function getStatus() {
 }
 
 function checkRepoConfig (context, config){
-    if(context.payload.pull_request.head.ref == config.branch_head && context.payload.pull_request.base.ref == config.branch_base  && config != null)
+    console.log("file config")
+    console.log(config.branch_head)
+    console.log("pull request object")
+    console.log(context.payload.pull_request.head)
+    if(context.payload.pull_request.head.ref == config.branch_head && context.payload.pull_request.base.ref == config.branch_base  && config != null){
         return true
+    }        
     return false
 }
 
