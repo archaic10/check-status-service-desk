@@ -1,0 +1,20 @@
+name: 'service desk status'
+description: 'service desk status check'
+inputs:
+  GITHUB_TOKEN:
+    description: 'GitHub token'
+  path-file:
+    description: 'file path'
+    required: true
+  url-jira:
+    description: 'url jira'
+    required: true
+  basic-auth:
+    description: 'jira authentication'
+    required: true
+outputs:
+  time:
+    description: 'finished process'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
