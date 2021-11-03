@@ -5,8 +5,22 @@ const axios = require('axios')
 var status = null
 var fileConfig = null
 async function run (){
-    await loadFileConfig()
+    
     try {
+        let github_token = core.getInput("GITHUB_TOKEN")
+        let path_file = core.getInput("path-file")
+        console.log("path_file") 
+        console.log(path_file) 
+        let octokit = github.getOctokit(github_token)    
+        let {data} = await octokit.rest.repos.getContent({
+            owner: github.context.payload.repository.owner.login,
+            repo: github.context.payload.repository.name,
+            path: path_file,
+        })
+
+        let path = data.download_url
+        await setFileConfig(path)
+
         console.log("run")
         console.log(getFileConfig())
         if(checkRepoConfig (github.context, getFileConfig())){
@@ -24,25 +38,13 @@ async function run (){
     }
 }
 
-async function loadFileConfig(){
-    try {           
-        let github_token = core.getInput("GITHUB_TOKEN")
-        let path_file = core.getInput("path-file")
-        console.log("path_file") 
-        console.log(path_file) 
-        let octokit = github.getOctokit(github_token)    
-        let {data} = await octokit.rest.repos.getContent({
-            owner: github.context.payload.repository.owner.login,
-            repo: github.context.payload.repository.name,
-            path: path_file,
-        })
-
-        let path = data.download_url
-        await setFileConfig(path)
-    } catch (error) {
-        core.setFailed(error.message)
-    }
-}
+// async function loadFileConfig(){
+//     try {           
+        
+//     } catch (error) {
+//         core.setFailed(error.message)
+//     }
+// }
 
 async function setFileConfig(path){
     try {
