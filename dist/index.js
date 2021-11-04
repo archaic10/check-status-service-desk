@@ -11509,7 +11509,7 @@ async function loadFileConfig(){
             owner: github.context.payload.repository.owner.login,
             repo: github.context.payload.repository.name,
             path: path_file,
-            ref: context.payload.pull_request.head.ref
+            ref: github.context.payload.pull_request.head.ref
         })
 
         let path = data.download_url
