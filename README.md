@@ -1,6 +1,7 @@
-check-file-repository
-This action checks the status of the jira service desk every 30 minutes, if the status is done the action ends execution
-Example
+# check-status-service-desk
+### This action checks the status of the jira service desk every 30 minutes, if the status is done the action ends execution
+
+## Example
 ```
 jobs:
   check-status-service-desk:
@@ -21,7 +22,7 @@ jobs:
 
 To use this action you need to pass the github_token, the path of the configuration file, which needs to be a .json file, containing the input branch information and the base branch and the jira card id: 
 
-example
+## example
 ```
 {
     "branch_base": "main",
