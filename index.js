@@ -15,7 +15,7 @@ async function run (){
                 setStatus(basic_auth,url ,getFileConfig().id_card)
               if (getStatus() != null)
                 checkStatus(interval)
-            } , 300000)   
+            } , 30000)   
         }  
     } catch (error) {
         core.setFailed(error.message); 
