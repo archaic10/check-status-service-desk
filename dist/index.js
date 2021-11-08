@@ -11498,16 +11498,12 @@ async function run (){
     }
 }
 
-async function checkStatus(interval) {  
-    try{ 
-        if (getStatus() == 'done'){
-        clearInterval(interval)
-        core.setOutput("result", "GMUD aprovada")
-        }else{
-        core.info('pendente de aprovação')
-        }
-    } catch (error) {
-        core.setFailed(error.message); 
+async function checkStatus(interval) {   
+    if (getStatus() == 'done'){
+      clearInterval(interval)
+      core.setOutput("result", "GMUD aprovada")
+    }else{
+      console.log('pendente de aprovação')
     }
 }
 
