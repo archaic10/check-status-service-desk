@@ -13,7 +13,7 @@ inputs:
     description: 'jira authentication'
     required: true
 outputs:
-  result:
+  time:
     description: 'finished process'
 runs:
   using: 'node12'
