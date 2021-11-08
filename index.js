@@ -3,16 +3,14 @@ const github = require('@actions/github')
 const axios = require('axios')
 
 var status = null
-var fileConfig = null
-async function run (){
-    await loadFileConfig()
+async function run (){    
     try {
-        if(checkRepoConfig (github.context, getFileConfig())){
+        if(checkBranchBase(github.context)){
             let basic_auth =  core.getInput("basic-auth")
             let url = core.getInput("url-jira")    
             let interval = setInterval(()=>{
               if(getStatus() == null || getStatus() != 'done')
-                setStatus(basic_auth,url ,getFileConfig().id_card)
+                setStatus(basic_auth,url)
               if (getStatus() != null)
                 checkStatus(interval)
             } , 30000)   
@@ -22,53 +20,22 @@ async function run (){
     }
 }
 
-async function loadFileConfig(){
-    try {           
-        let github_token = core.getInput("GITHUB_TOKEN")
-        let path_file = core.getInput("path-file")        
-        let octokit = github.getOctokit(github_token)    
-        let {data} = await octokit.rest.repos.getContent({
-            owner: github.context.payload.repository.owner.login,
-            repo: github.context.payload.repository.name,
-            path: path_file,
-            ref: github.context.payload.pull_request.head.ref
-        })
-
-        let path = data.download_url
-        await setFileConfig(path)
+async function checkStatus(interval) {  
+    try{ 
+        if (getStatus() == 'done'){
+        clearInterval(interval)
+        core.setOutput("result", "GMUD aprovada")
+        }else{
+        core.info('pendente de aprovação')
+        }
     } catch (error) {
-        core.setFailed(error.message)
+        core.setFailed(error.message); 
     }
 }
 
-async function setFileConfig(path){
-    try {
-        await axios.get(path).then((res)=>{
-            fileConfig = res.data 
-        }).catch((error)=>{
-            console.log(error)
-        })
-    } catch (error) {
-        core.setFailed(error.message)
-    }
-}
- 
-function getFileConfig(){
-    return fileConfig
-}
-
-async function checkStatus(interval) {   
-    if (getStatus() == 'done'){
-      clearInterval(interval)
-      core.setOutput("result", "GMUD aprovada")
-    }else{
-      console.log('pendente de aprovação')
-    }
-}
-
-async function setStatus(basic_auth, url, id_card) {
+async function setStatus(basic_auth, url) {
     
-    await axios.get(`${url}${id_card}`,
+    await axios.get(`${url}`,
       {
         headers: {
           Authorization: basic_auth,
@@ -85,11 +52,8 @@ function getStatus() {
     return status
 }
 
-function checkRepoConfig (context, config){    
-    if(context.payload.pull_request.head.ref == config.branch_head && context.payload.pull_request.base.ref == config.branch_base  && config != null){
-        return true
-    }        
-    return false
+function checkBranchBase (context){ 
+    return context.payload.pull_request.base.ref == context.payload.repository.default_branch    
 }
 
 run()
