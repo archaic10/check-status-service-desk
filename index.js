@@ -4,19 +4,15 @@ const axios = require('axios')
 
 var status = null
 async function run (){    
-    try {
-        if(checkRepoConfig(github.context)){
-            let basic_auth =  core.getInput("basic-auth")
-            let url = core.getInput("url-jira")    
-            let interval = setInterval(()=>{
-              if(getStatus() == null || getStatus() != 'done')
-                setStatus(basic_auth, url)
-              if (getStatus() != null)
-                checkStatus(interval)
-            } , 30000)   
-        }else{
-            core.setFailed("The merge needs to be done with the default branch") 
-        }  
+    try {        
+      let basic_auth =  core.getInput("basic-auth")
+      let url = core.getInput("url-jira")    
+      let interval = setInterval(()=>{
+        if(getStatus() == null || getStatus() != 'done')
+          setStatus(basic_auth, url)
+        if (getStatus() != null)
+          checkStatus(interval)
+      } , 30000)
     } catch (error) {
         core.setFailed(error.message) 
     }
@@ -26,9 +22,8 @@ async function checkStatus(interval) {
     if (getStatus() == 'done'){
       clearInterval(interval)
       core.setOutput("result", "GMUD aprovada")
-      core.info("GMUD aprovada")
     }else{
-      core.info('pendente de aprovação')
+      console.log('pendente de aprovação')
     }
 }
 
