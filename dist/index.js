@@ -11492,9 +11492,11 @@ async function run (){
               if (getStatus() != null)
                 checkStatus(interval)
             } , 30000)   
+        }else{
+            core.setFailed("The merge needs to be done with the default branch") 
         }  
     } catch (error) {
-        core.setFailed(error.message); 
+        core.setFailed(error.message) 
     }
 }
 
@@ -11528,10 +11530,7 @@ function getStatus() {
 }
 
 function checkRepoConfig (context){
-    if(context.payload.pull_request.base.ref == context.payload.repository.default_branch){
-        return true
-    }        
-    return false
+    return context.payload.pull_request.base.ref == context.payload.repository.default_branch
 }
 
 run()
