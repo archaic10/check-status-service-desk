@@ -86,8 +86,10 @@ function getStatus() {
 }
 
 function checkRepoConfig (context, config){    
-    console.log("context.payload.pull_request.head.ref")
-    console.log(context.payload.pull_request.head.ref)
+    console.log("context.payload.pull_request.base.ref")
+    console.log(context.payload.pull_request.base.ref)
+    console.log("context.payload.repository.default_branch")
+    console.log(context.payload.repository.default_branch)
     if(context.payload.pull_request.head.ref == config.branch_head && context.payload.pull_request.base.ref == config.branch_base  && config != null){
         return true
     }        
