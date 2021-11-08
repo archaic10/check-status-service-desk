@@ -62,7 +62,7 @@ async function checkStatus(interval) {
       clearInterval(interval)
       core.setOutput("result", "GMUD aprovada")
     }else{
-      console.log('pendente de aprovação')
+      core.info('pendente de aprovação')
     }
 }
 
@@ -86,6 +86,8 @@ function getStatus() {
 }
 
 function checkRepoConfig (context, config){    
+    console.log("context.payload.pull_request.head.ref")
+    console.log(context.payload.pull_request.head.ref)
     if(context.payload.pull_request.head.ref == config.branch_head && context.payload.pull_request.base.ref == config.branch_base  && config != null){
         return true
     }        
