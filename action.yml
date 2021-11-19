@@ -9,6 +9,9 @@ inputs:
   basic-auth:
     description: 'jira authentication'
     required: true
+  other-types-current-status:
+    description: 'other types of current status'
+    required: true
 outputs:
   result:
     description: 'finished process'
