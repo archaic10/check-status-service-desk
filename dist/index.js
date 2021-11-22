@@ -11536,7 +11536,7 @@ function getStatus() {
 }
 
 function setTypeStatus(nameStatus){
-    typeStatus = removeAccent(nameStatus)
+    typeStatus = nameStatus
 }
 
 function getTypeStatus(){
