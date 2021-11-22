@@ -11501,9 +11501,13 @@ async function run (){
 
 async function checkStatus(interval) {   
     if (getStatus() == 'done' || changeStatus ){
+      console.log('Valor do get status : ',  getStatus())
+      console.log('Valor do change satus: ',  changeStatus)
       clearInterval(interval)
       core.setOutput("result", "GMUD aprovada")
     }else{
+      console.log('Valor do get status : ',  getStatus())
+      console.log('Valor do change satus: ',  changeStatus)
       console.log('Pendente de aprovação')
     }
 }
@@ -11519,11 +11523,17 @@ async function setStatus(basic_auth, url, otherTypesCurrentStatus) {
       }).then((res) => {
         status = res.data.currentStatus.statusCategory.toLowerCase()
         if(otherTypesCurrentStatus){
-          if(typeStatus == null)
-            setTypeStatus(res.data.currentStatus.status.toLowerCase())                     
+          if(typeStatus == null){
+            console.log('Atribuindo variável global de tipo de status')
+            console.log('Atribuindo tipo de status com o valor : ', res.data.currentStatus.status.toLowerCase())
+            setTypeStatus(res.data.currentStatus.status.toLowerCase())
+          }                                 
 
-          if(typeStatus != res.data.currentStatus.status.toLowerCase())
+          if(typeStatus != res.data.currentStatus.status.toLowerCase()){
+            console.log('Mudança de status identificada')
             changeStatus = true
+          }
+            
           
         }
       }).catch((error) => {
